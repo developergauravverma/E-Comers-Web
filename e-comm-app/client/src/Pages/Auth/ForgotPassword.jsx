@@ -1,33 +1,28 @@
 import React, { useState } from "react";
 import Layout from "../../Components/Layout/Layout";
-import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { useAuth } from "../../Context/AuthContext";
+import toast from "react-hot-toast";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-  const [auth, setAuth] = useAuth();
-  const location = useLocation();
-
   const clickHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `http://localhost:8080/api/v1/auth/forgot-password`,
+        {
+          email,
+          newPassword,
+          answer,
+        }
+      );
       if (res.data.success) {
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
         toast.success(res.data.message);
+        navigate("/login");
       } else {
         toast.error(res.data.message);
       }
@@ -39,7 +34,7 @@ const Login = () => {
   return (
     <Layout>
       <div className="register">
-        <h1>Login</h1>
+        <h1>Forgot Password</h1>
         <form style={{ width: "400px" }}>
           <div className="mb-3">
             <input
@@ -55,13 +50,25 @@ const Login = () => {
           </div>
           <div className="mb-3">
             <input
+              type="text"
+              className="form-control"
+              id="exampleInputAnswer"
+              placeholder="What is your nick name"
+              value={answer}
+              onChange={(e) => {
+                setAnswer(e.target.value);
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <input
               type="password"
               className="form-control"
               id="exampleInputPassword"
               placeholder="Password"
-              value={password}
+              value={newPassword}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setNewPassword(e.target.value);
               }}
             />
           </div>
@@ -70,16 +77,12 @@ const Login = () => {
             className="btn btn-primary align-items-center"
             onClick={clickHandler}
           >
-            Login
+            Forgot Password
           </button>
-          <p>
-            Please click here to <Link to="/forgotpassword">Forgot</Link>{" "}
-            Password
-          </p>
         </form>
       </div>
     </Layout>
   );
 };
 
-export default Login;
+export default ForgotPassword;
