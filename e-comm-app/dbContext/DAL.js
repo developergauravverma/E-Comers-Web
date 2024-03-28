@@ -1,13 +1,11 @@
-import sql from "mssql";
-import SqlConfig from "./SqlConfig.js";
+import sql, { poolPromise } from "./DB.js";
 
 export const getDataFromDatabase = async (
   procedureName,
   objParamWithKeyAndValue = {},
   objParamType = {}
 ) => {
-  const pool = await sql.connect(SqlConfig);
-
+  const pool = await poolPromise;
   let request = await pool.request();
   for (let key in objParamWithKeyAndValue) {
     const type = GETvalueByKey(key, objParamType);
