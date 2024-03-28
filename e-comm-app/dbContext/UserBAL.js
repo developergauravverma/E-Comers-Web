@@ -21,7 +21,8 @@ export const createNewUser = async (
   phone,
   address,
   hashedPassword,
-  role
+  role,
+  answer
 ) => {
   let user = null;
   try {
@@ -35,6 +36,7 @@ export const createNewUser = async (
         address: address,
         saltpassword: hashedPassword,
         role: role,
+        answer: answer,
       },
       {
         name: "text",
@@ -44,6 +46,7 @@ export const createNewUser = async (
         address: "text",
         saltpassword: "text",
         role: "int",
+        answer: "text",
       }
     );
   } catch (error) {
@@ -64,4 +67,28 @@ export const getUserByEmailId = async (email = "", id = 0) => {
     console.log(`error in user bal ${error}`);
   }
   return user;
+};
+
+export const UpdateForgotPassword = async (Id, hashedPassword, newPassword) => {
+  let isUpdate = false;
+  try {
+    isUpdate = await getDataFromDatabase(
+      "sp_ChangeUserPassword",
+      {
+        userId: Id,
+        password: newPassword,
+        saltPassword: hashedPassword,
+      },
+      {
+        userId: "int",
+        password: "text",
+        saltPassword: "text",
+      }
+    );
+  } catch (error) {
+    console.log(
+      `error in userBAL file in UpdateForgotPassword function ${error}`
+    );
+  }
+  return isUpdate;
 };

@@ -1,7 +1,6 @@
 import Express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { conn } from "./dbContext/dbContext.js";
 import authRoutes from "./Routes/AuthRoutes.js";
 import cors from "cors";
 
@@ -25,4 +24,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`server running on ${process.env.DEV_MODE} mode on port ${PORT}`);
 });
-conn();
