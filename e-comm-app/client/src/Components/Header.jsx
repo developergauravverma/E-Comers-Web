@@ -16,7 +16,7 @@ const Header = () => {
   };
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -59,14 +59,43 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <NavLink
-                      onClick={handleLogout}
-                      className="nav-link"
-                      to="/login"
+                  <li className="nav-item dropdown">
+                    <Link
+                      className="nav-link dropdown-toggle"
+                      id="navbarScrollingDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      Logout
-                    </NavLink>
+                      {auth?.user?.name}
+                    </Link>
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby="navbarScrollingDropdown"
+                    >
+                      <li>
+                        <NavLink
+                          className="dropdown-item"
+                          to={`/dashbord/${
+                            auth?.user?.role === 1 ? "admin" : "user"
+                          }`}
+                        >
+                          Dashbord
+                        </NavLink>
+                      </li>
+                      <li>
+                        <hr className="dropdown-divider" />
+                      </li>
+                      <li>
+                        <NavLink
+                          onClick={handleLogout}
+                          className="dropdown-item"
+                          to="/login"
+                        >
+                          Logout
+                        </NavLink>
+                      </li>
+                    </ul>
                   </li>
                 </>
               )}

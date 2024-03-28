@@ -18,5 +18,10 @@ router.get("/user-auth", requireSignIn, (req, res) => {
     ok: true,
   });
 });
+router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
+  res.send({
+    ok: true,
+  });
+});
 
 export default router;
