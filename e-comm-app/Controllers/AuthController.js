@@ -79,6 +79,15 @@ export const loginController = async (req, res) => {
         message: "Email is not register",
       });
     }
+
+    if (!user.IsActive) {
+      return res.send({
+        success: true,
+        message:
+          "this user is not active now. please login with different User Email",
+      });
+    }
+
     const match = await comparePassword(password, user.SaltPassword);
     if (!match) {
       return res.send({
