@@ -53,3 +53,14 @@
   font-size: 40px;
   height: 90px !important;
 }
+
+.admin-table {
+  width: 70vw !important;
+}
+
+.admin-table > th {
+  text-align: center !important;
+}
+.admin-table > td {
+  text-align: center !important;
+}
