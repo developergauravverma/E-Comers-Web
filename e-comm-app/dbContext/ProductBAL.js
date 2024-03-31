@@ -14,6 +14,7 @@ export const CreateProduct = async (param) => {
         Quantity: param.quantity,
         PhotoPath: param.ImagePath,
         userId: param.userId,
+        Shipping: param.shipping,
       },
       {
         Name: "text",
@@ -24,6 +25,7 @@ export const CreateProduct = async (param) => {
         Quantity: "int",
         PhotoPath: "text",
         userId: "int",
+        Shipping: "text",
       }
     );
     // Validate the input parameters
@@ -80,6 +82,7 @@ export const UpdateProduct = async (newProduct) => {
         PhotoPath: newProduct.ImagePath,
         userId: newProduct.userId,
         productId: newProduct.id,
+        Shipping: newProduct.shipping,
       },
       {
         Name: "text",
@@ -91,6 +94,7 @@ export const UpdateProduct = async (newProduct) => {
         PhotoPath: "text",
         userId: "int",
         productId: "int",
+        Shipping: "text",
       }
     );
   } catch (error) {

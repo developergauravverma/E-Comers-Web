@@ -9,40 +9,31 @@ import fs from "fs";
 
 export const CreateProductController = async (req, res) => {
   try {
-    const { name, description, price, categoryId, quantity, userId } = req.body;
+    const { name, description, price, categoryId, quantity, userId, shipping } =
+      req.body;
     const photo = req.file;
 
     switch (true) {
       case !name:
-        return (
-          res.send({ message: "Product Name is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product Name is required." });
       case !description:
-        return (
-          res.send({ message: "Product description is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product description is required." });
       case !price:
-        return (
-          res.send({ message: "Product price is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product price is required." });
       case !categoryId:
-        return (
-          res.send({ message: "Product category is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product category is required." });
       case !quantity:
-        return (
-          res.send({ message: "Product quantity is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product quantity is required." });
       case !photo:
-        return (
-          res.send({ message: "Product image is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product image is required." });
+      case !shipping:
+        return res.send({ message: "Shipping is required." });
     }
 
     if (!photo && !photo.filename && !photo.path) {
@@ -176,41 +167,33 @@ export const DeleteProductByIdController = async (req, res) => {
 
 export const UpdateProductByIdController = async (req, res) => {
   try {
-    const { name, description, price, categoryId, quantity, userId } = req.body;
+    const { name, description, price, categoryId, quantity, userId, shipping } =
+      req.body;
     const { productId } = req.params;
     const photo = req.file;
 
     switch (true) {
       case !name:
-        return (
-          res.send({ message: "Product Name is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product Name is required." });
       case !description:
-        return (
-          res.send({ message: "Product description is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product description is required." });
       case !price:
-        return (
-          res.send({ message: "Product price is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product price is required." });
       case !categoryId:
-        return (
-          res.send({ message: "Product category is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product category is required." });
       case !quantity:
-        return (
-          res.send({ message: "Product quantity is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product quantity is required." });
       case !photo:
-        return (
-          res.send({ message: "Product image is required." }) ||
-          (await fs.unlinkSync(photo.path))
-        );
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Product image is required." });
+      case !shipping:
+        await fs.unlinkSync(photo.path);
+        return res.send({ message: "Shipping is required." });
     }
 
     if (!photo && !photo.filename && !photo.path) {
@@ -242,6 +225,7 @@ export const UpdateProductByIdController = async (req, res) => {
       quantity: updatedProduct.Quantity,
       ImagePath: updatedProduct.PhotoPath,
       userId: updatedProduct.CreatedBy,
+      shipping: updatedProduct.Shipping,
     };
 
     let version1 = {
