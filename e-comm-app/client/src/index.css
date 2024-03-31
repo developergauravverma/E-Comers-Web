@@ -58,9 +58,9 @@
   width: 70vw !important;
 }
 
-.admin-table > th {
+.admin-table > tr > th {
   text-align: center !important;
 }
-.admin-table > td {
+.admin-table > tr > td {
   text-align: center !important;
 }

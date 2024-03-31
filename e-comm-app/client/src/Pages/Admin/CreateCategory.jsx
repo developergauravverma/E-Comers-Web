@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import CategoryForm from "../../Components/Form/CategoryForm";
 import { useAuth } from "../../Context/AuthContext";
+import { Modal } from "antd";
 
 const CreateCategory = () => {
   // eslint-disable-next-line
@@ -12,6 +13,10 @@ const CreateCategory = () => {
   const [category, setCategory] = useState([]);
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState("");
+  const [categoryId, setCategoryId] = useState(0);
+  const [deleteVisible, setDeleteVisible] = useState(false);
 
   const getAllCategory = async () => {
     try {
@@ -48,6 +53,74 @@ const CreateCategory = () => {
     }
   };
 
+  const updateHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(
+        `/api/v1/category/update-category/${categoryId}`,
+        {
+          name: selected,
+          userId: auth?.user?.id,
+        }
+      );
+      if (data?.success) {
+        toast.success(`${data.category.CategoryName} is Updated.`);
+        getAllCategory();
+        setVisible(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log("error in Update Category");
+    }
+  };
+
+  const updateButton = (e) => {
+    e.preventDefault();
+    setVisible(true);
+    const categoryId = e.target.getAttribute("data-id");
+    const categoryName = e.target.getAttribute("data-text");
+
+    setCategoryId(categoryId);
+    setSelected(categoryName);
+  };
+
+  const deleteButton = (e) => {
+    debugger;
+    e.preventDefault();
+    setDeleteVisible(true);
+    setCategoryId(e.target.getAttribute("data-id"));
+    setSelected(e.target.getAttribute("data-text"));
+  };
+
+  const yesDelete = async (e) => {
+    debugger;
+    e.preventDefault();
+    try {
+      const { data } = await axios.delete(
+        `/api/v1/category/delete-CategoryById/${categoryId}`,
+        {
+          userId: auth?.user?.id,
+        }
+      );
+      if (data?.success) {
+        toast.success(`${selected} category is deleted.`);
+        getAllCategory();
+        setDeleteVisible(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log("error in yesDelete Category");
+    }
+  };
+
+  const noDelete = (e) => {
+    debugger;
+    e.preventDefault();
+    setDeleteVisible(false);
+  };
+
   useEffect(() => {
     getAllCategory();
   }, []);
@@ -82,7 +155,22 @@ const CreateCategory = () => {
                     <tr key={x.Id}>
                       <td>{x.CategoryName}</td>
                       <td>
-                        <button className="btn btn-primary">Edit</button>
+                        <button
+                          className="btn btn-primary ms-2"
+                          onClick={updateButton}
+                          data-id={x.Id}
+                          data-text={x.CategoryName}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger ms-2"
+                          onClick={deleteButton}
+                          data-id={x.Id}
+                          data-text={x.CategoryName}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -90,6 +178,40 @@ const CreateCategory = () => {
               </table>
             </div>
           </div>
+          <Modal
+            onCancel={() => setVisible(false)}
+            footer={null}
+            visible={visible}
+          >
+            <CategoryForm
+              category={selected}
+              setCategory={setSelected}
+              submitHandler={updateHandler}
+            />
+          </Modal>
+          <Modal
+            onCancel={() => setDeleteVisible(false)}
+            footer={null}
+            visible={deleteVisible}
+          >
+            <div className="d-flex flex-column justify-content-center">
+              <div className="row">
+                <div className="col-md-12 text-center">
+                  <p>Are you sure to delete {selected} Category?</p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12 text-center">
+                  <button className="btn btn-danger m-3" onClick={yesDelete}>
+                    Yes
+                  </button>
+                  <button className="btn btn-primary m-3" onClick={noDelete}>
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </div>
       </div>
     </Layout>
