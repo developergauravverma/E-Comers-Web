@@ -15,7 +15,7 @@ const Login = () => {
   const clickHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:8080/api/v1/auth/login`, {
+      const res = await axios.post("/api/v1/auth/login", {
         email,
         password,
       });

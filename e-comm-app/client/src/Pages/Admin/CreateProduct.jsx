@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../Components/Layout/Layout";
 import AdminMenu from "../../Components/Layout/AdminMenu";
 
