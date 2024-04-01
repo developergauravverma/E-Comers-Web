@@ -27,26 +27,16 @@ const CreateProduct = () => {
 
   const navigate = useNavigate();
 
-  // const getAllProduct = async () => {
-  //   try {
-  //     const { data } = axios.get("/api/v1/product/get-products");
-  //     if (data.success) {
-  //       toast.success(data.message);
-  //       setAllProduct(data.products);
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(`Error in getAllProduct error: ${error}`);
-  //     toast.error("error in getAllProduct");
-  //   }
-  // };
-
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-Category");
       if (data?.success) {
-        setAllCategory(data?.category);
+        let categorys = !data.category
+          ? []
+          : Array.isArray(data.category)
+          ? data.category
+          : [data.category];
+        setAllCategory(categorys);
       } else {
         toast.error(data?.message);
       }

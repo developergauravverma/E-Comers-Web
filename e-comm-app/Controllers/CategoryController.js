@@ -115,7 +115,10 @@ export const getCategoryById = async (req, res) => {
 export const deleteCategoryById = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    const { userId } = req.body;
+    let { userId } = req.body;
+    if (!userId) {
+      userId = req.user.id;
+    }
     const { isDeleted } = await deleteCategory(categoryId, userId);
     if (!isDeleted) {
       return res.send({

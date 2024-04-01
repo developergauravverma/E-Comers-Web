@@ -21,10 +21,15 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-Category");
+      debugger;
       if (data.success) {
-        setCategory(data.category);
-        setCount(data.category.length);
-        toast.success("Get Category Successfully");
+        let categorys = !data.category
+          ? []
+          : Array.isArray(data.category)
+          ? data.category
+          : [data.category];
+        setCategory(categorys);
+        setCount(!categorys ? 0 : categorys.length);
       } else {
         toast.error(data.message);
       }
@@ -45,6 +50,7 @@ const CreateCategory = () => {
       if (data?.success) {
         toast.success(`${data.newCategory.CategoryName} is created.`);
         getAllCategory();
+        setName("");
       } else {
         toast.error(data.message);
       }
