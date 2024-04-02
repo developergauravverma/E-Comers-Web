@@ -4,14 +4,17 @@ import Layout from "../../Components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { Modal } from "antd";
+import ProductUpdateForm from "../../Components/Form/ProductUpdateForm";
 
 const ProductsPage = () => {
   const [product, setProduct] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [productId, setProductId] = useState(0);
 
   const getProduct = async () => {
     try {
       const { data } = await axios.get("/api/v1/product/get-products");
-      debugger;
       if (data?.success) {
         let products = !data.products
           ? []
@@ -31,6 +34,12 @@ const ProductsPage = () => {
   useEffect(() => {
     getProduct();
   }, []);
+
+  const editLink = (e) => {
+    setVisible(true);
+    let proId = e.target.getAttribute("data-productid");
+    setProductId(proId);
+  };
 
   return (
     <Layout>
@@ -70,12 +79,30 @@ const ProductsPage = () => {
                     <div>
                       <b>Quantity</b>: {x.Quantity}
                     </div>
-                    <Link className="btn btn-primary">Go somewhere</Link>
+                    <Link
+                      className="btn btn-primary"
+                      onClick={editLink}
+                      data-productid={x.Id}
+                    >
+                      Edit
+                    </Link>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+          <Modal
+            onCancel={() => setVisible(false)}
+            footer={null}
+            visible={visible}
+            zIndexPopupBase={1000}
+          >
+            <ProductUpdateForm
+              productId={productId}
+              setVisible={setVisible}
+              updateProductList={getProduct}
+            />
+          </Modal>
         </div>
       </div>
     </Layout>

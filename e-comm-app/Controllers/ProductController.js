@@ -188,32 +188,22 @@ export const UpdateProductByIdController = async (req, res) => {
       case !quantity:
         await fs.unlinkSync(photo.path);
         return res.send({ message: "Product quantity is required." });
-      case !photo:
-        await fs.unlinkSync(photo.path);
-        return res.send({ message: "Product image is required." });
       case !shipping:
         await fs.unlinkSync(photo.path);
         return res.send({ message: "Shipping is required." });
     }
 
-    if (!photo && !photo.filename && !photo.path) {
-      await fs.unlinkSync(photo.path);
-      return res.send({
-        success: false,
-        message: "Product Image not uploaded.",
-      });
-    }
-
     const slug = slugify(name);
+
+    const updatedProduct = await GetProducts(productId);
 
     const values = {
       ...req.body,
       slug: slug,
-      ImagePath: photo.path,
+      ImagePath: !photo?.path ? updatedProduct.PhotoPath : photo.path,
       userId: userId,
+      id: productId,
     };
-
-    const updatedProduct = await GetProducts(productId);
 
     const newProduct = {
       id: updatedProduct.Id,
@@ -235,7 +225,10 @@ export const UpdateProductByIdController = async (req, res) => {
 
     const { isUpdate } = await UpdateProduct(version1);
 
-    await fs.unlinkSync(newProduct.ImagePath);
+    if (photo) {
+      await fs.unlinkSync(newProduct.ImagePath);
+    }
+
     if (!isUpdate) {
       await fs.unlinkSync(photo.path);
       return res.send({
