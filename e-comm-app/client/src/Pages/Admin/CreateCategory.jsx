@@ -21,10 +21,15 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-Category");
+      debugger;
       if (data.success) {
-        setCategory(data.category);
-        setCount(data.category.length);
-        toast.success("Get Category Successfully");
+        let categorys = !data.category
+          ? []
+          : Array.isArray(data.category)
+          ? data.category
+          : [data.category];
+        setCategory(categorys);
+        setCount(!categorys ? 0 : categorys.length);
       } else {
         toast.error(data.message);
       }
@@ -45,6 +50,7 @@ const CreateCategory = () => {
       if (data?.success) {
         toast.success(`${data.newCategory.CategoryName} is created.`);
         getAllCategory();
+        setName("");
       } else {
         toast.error(data.message);
       }
@@ -93,32 +99,32 @@ const CreateCategory = () => {
     setSelected(e.target.getAttribute("data-text"));
   };
 
-  const yesDelete = async (e) => {
+  const conformDelete = async (e) => {
     debugger;
     e.preventDefault();
     try {
-      const { data } = await axios.delete(
-        `/api/v1/category/delete-CategoryById/${categoryId}`,
-        {
-          userId: auth?.user?.id,
+      const isDelete =
+        e.target.getAttribute("data-value") === "yes" ? true : false;
+      if (isDelete) {
+        const { data } = await axios.delete(
+          `/api/v1/category/delete-CategoryById/${categoryId}`,
+          {
+            userId: auth?.user?.id,
+          }
+        );
+        if (data?.success) {
+          toast.success(`${selected} category is deleted.`);
+          getAllCategory();
+          setDeleteVisible(false);
+        } else {
+          toast.error(data.message);
         }
-      );
-      if (data?.success) {
-        toast.success(`${selected} category is deleted.`);
-        getAllCategory();
-        setDeleteVisible(false);
       } else {
-        toast.error(data.message);
+        setDeleteVisible(false);
       }
     } catch (error) {
       console.log("error in yesDelete Category");
     }
-  };
-
-  const noDelete = (e) => {
-    debugger;
-    e.preventDefault();
-    setDeleteVisible(false);
   };
 
   useEffect(() => {
@@ -197,15 +203,32 @@ const CreateCategory = () => {
             <div className="d-flex flex-column justify-content-center">
               <div className="row">
                 <div className="col-md-12 text-center">
-                  <p>Are you sure to delete {selected} Category?</p>
+                  <div
+                    className="alert alert-danger d-flex align-items-center"
+                    role="alert"
+                  >
+                    <div>
+                      Are you sure to delete <u>{selected}</u> Category?
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-12 text-center">
-                  <button className="btn btn-danger m-3" onClick={yesDelete}>
+                <div className="col-md-12 text-end">
+                  <button
+                    className="btn btn-danger m-1"
+                    onClick={conformDelete}
+                    data-value="yes"
+                    style={{ width: "5rem" }}
+                  >
                     Yes
                   </button>
-                  <button className="btn btn-primary m-3" onClick={noDelete}>
+                  <button
+                    className="btn btn-primary m-1"
+                    onClick={conformDelete}
+                    data-value="no"
+                    style={{ width: "5rem" }}
+                  >
                     No
                   </button>
                 </div>

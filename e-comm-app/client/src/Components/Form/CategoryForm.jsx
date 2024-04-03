@@ -14,7 +14,7 @@ const CategoryForm = ({ category, setCategory, submitHandler }) => {
           />
         </div>
         <button type="submit" className="btn btn-primary mb-3">
-          Add new Category
+          {!category ? "Add new category" : "Update category"}
         </button>
       </form>
     </>

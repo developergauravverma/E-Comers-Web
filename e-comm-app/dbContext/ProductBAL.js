@@ -53,13 +53,13 @@ export const GetProducts = async (productId = 0) => {
   return allProducts;
 };
 
-export const deleteProduct = async (productId = 0) => {
+export const deleteProduct = async (productId = 0, userId = 0) => {
   let isdelete = null;
   try {
     isdelete = await getDataFromDatabase(
       "sp_DeleteProductById",
-      { productId: productId },
-      { productId: "int" }
+      { productId: productId, userId: userId },
+      { productId: "int", userId: "int" }
     );
   } catch (error) {
     console.log(`error in product bal deleteProduct ${error}`);
