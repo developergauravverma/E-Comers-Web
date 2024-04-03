@@ -6,11 +6,16 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { Modal } from "antd";
 import ProductUpdateForm from "../../Components/Form/ProductUpdateForm";
+import { useAuth } from "../../Context/AuthContext";
 
 const ProductsPage = () => {
+  // eslint-disable-next-line
+  const [auth, setAuth] = useAuth();
   const [product, setProduct] = useState([]);
   const [visible, setVisible] = useState(false);
   const [productId, setProductId] = useState(0);
+  const [delVisible, setDelVisible] = useState(false);
+  const [selected, setSelected] = useState("");
 
   const getProduct = async () => {
     try {
@@ -41,6 +46,40 @@ const ProductsPage = () => {
     setProductId(proId);
   };
 
+  const deleteLink = (e) => {
+    setDelVisible(true);
+    const productId = e.target.getAttribute("data-productid");
+    const value = e.target.getAttribute("data-productname");
+    setSelected(value);
+    setProductId(productId);
+  };
+
+  const deleteHandler = async (e) => {
+    try {
+      const isDelete =
+        e.target.getAttribute("data-value") === "yes" ? true : false;
+      if (isDelete) {
+        const { data } = await axios.delete(
+          `/api/v1/product/delete-product/${productId}`,
+          {
+            userId: auth?.user?.id,
+          }
+        );
+        if (data.success) {
+          getProduct();
+          toast.success("Product Deleted Successfully!");
+        } else {
+          toast.error(data.message);
+        }
+        setDelVisible(false);
+      } else {
+        setDelVisible(false);
+      }
+    } catch (error) {
+      console.log(`Error in deleteHandler ${error}`);
+    }
+  };
+
   return (
     <Layout>
       <div className="container-fluid m-3 p-3">
@@ -58,9 +97,13 @@ const ProductsPage = () => {
                       "\\",
                       "/"
                     )}`}
-                    className="card-img-top"
+                    className="card-img-top zoomImg"
                     alt="default"
-                    style={{ height: "15rem", width: "100%" }}
+                    style={{
+                      height: "15rem",
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{x.ProductName}</h5>
@@ -80,11 +123,19 @@ const ProductsPage = () => {
                       <b>Quantity</b>: {x.Quantity}
                     </div>
                     <Link
-                      className="btn btn-primary"
+                      className="btn btn-primary m-1"
                       onClick={editLink}
                       data-productid={x.Id}
                     >
                       Edit
+                    </Link>
+                    <Link
+                      className="btn btn-danger m-1"
+                      onClick={deleteLink}
+                      data-productid={x.Id}
+                      data-productname={x.ProductName}
+                    >
+                      Delete
                     </Link>
                   </div>
                 </div>
@@ -102,6 +153,41 @@ const ProductsPage = () => {
               setVisible={setVisible}
               updateProductList={getProduct}
             />
+          </Modal>
+          <Modal
+            onCancel={() => setDelVisible(false)}
+            footer={null}
+            visible={delVisible}
+            zIndexPopupBase={1000}
+          >
+            <div className="row">
+              <div className="col-md-12 text-center">
+                <div
+                  className="alert alert-danger d-flex align-items-center"
+                  role="alert"
+                >
+                  <div>
+                    Are you sure to delete <u>{selected}</u> Category?
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-end">
+                <button
+                  className="btn btn-danger m-1"
+                  onClick={deleteHandler}
+                  data-value="yes"
+                >
+                  Yes
+                </button>
+                <button
+                  className="btn btn-primary m-1"
+                  onClick={deleteHandler}
+                  data-value="no"
+                >
+                  No
+                </button>
+              </div>
+            </div>
           </Modal>
         </div>
       </div>

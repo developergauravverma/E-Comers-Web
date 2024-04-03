@@ -86,7 +86,7 @@ export const GetProductController = async (req, res) => {
     const products = await GetProducts();
     if (!products) {
       return res.send({
-        success: false,
+        success: true,
         message: "you don't have any product",
       });
     }
@@ -134,8 +134,12 @@ export const GetProductByIdController = async (req, res) => {
 
 export const DeleteProductByIdController = async (req, res) => {
   const { productId } = req.params;
+  let { userId } = req.body;
+  if (!userId) {
+    userId = req.user.id;
+  }
   try {
-    const { isDelete, imagePath } = await deleteProduct(productId);
+    const { isDelete, imagePath } = await deleteProduct(productId, userId);
     if (!isDelete) {
       return res.send({
         success: false,
