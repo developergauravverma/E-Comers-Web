@@ -193,6 +193,7 @@ const CreateCategory = () => {
               category={selected}
               setCategory={setSelected}
               submitHandler={updateHandler}
+              isUpdate={visible}
             />
           </Modal>
           <Modal
