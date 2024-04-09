@@ -1,4 +1,7 @@
-import { FilterByCategoryAndPrice } from "../dbContext/ProductFilterBAL.js";
+import {
+  FilterByCategoryAndPrice,
+  RelatedProductBAL,
+} from "../dbContext/ProductFilterBAL.js";
 
 export const FilterProductController = async (req, res) => {
   try {
@@ -25,6 +28,30 @@ export const FilterProductController = async (req, res) => {
     res.send({
       success: false,
       message: "error in filter controller",
+      error,
+    });
+  }
+};
+
+export const RelatedProductController = async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const relatedProduct = await RelatedProductBAL(cid, pid);
+    if (!relatedProduct) {
+      return res.send({
+        success: false,
+        message: "No product is available for this category",
+      });
+    }
+    return res.send({
+      success: true,
+      message: "Similar Product are found",
+      relatedProduct,
+    });
+  } catch (error) {
+    return res.send({
+      success: false,
+      message: `something went wrong in RelatedProductController`,
       error,
     });
   }
