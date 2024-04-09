@@ -1,6 +1,6 @@
 import React from "react";
 
-const CategoryForm = ({ category, setCategory, submitHandler }) => {
+const CategoryForm = ({ category, setCategory, submitHandler, isUpdate }) => {
   return (
     <>
       <form onSubmit={submitHandler}>
@@ -14,7 +14,7 @@ const CategoryForm = ({ category, setCategory, submitHandler }) => {
           />
         </div>
         <button type="submit" className="btn btn-primary mb-3">
-          {!category ? "Add new category" : "Update category"}
+          {!isUpdate ? "Add new category" : "Update category"}
         </button>
       </form>
     </>

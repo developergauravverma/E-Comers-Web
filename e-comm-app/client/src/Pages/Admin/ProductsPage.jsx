@@ -89,7 +89,7 @@ const ProductsPage = () => {
           </div>
           <div className="col-md-9">
             <h2>Get all product</h2>
-            <div className="d-flex">
+            <div className="d-flex flex-wrap">
               {product?.map((x) => (
                 <div key={x.Id} className="card" style={{ width: "18rem" }}>
                   <img
@@ -167,7 +167,7 @@ const ProductsPage = () => {
                   role="alert"
                 >
                   <div>
-                    Are you sure to delete <u>{selected}</u> Category?
+                    Are you sure to delete <u>{selected}</u> Product?
                   </div>
                 </div>
               </div>

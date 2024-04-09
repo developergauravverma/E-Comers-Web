@@ -8,6 +8,7 @@ import {
 } from "../Controllers/ProductController.js";
 import uploadImage from "../Middleware/ImageMiddleware.js";
 import { requireSignIn, isAdmin } from "../Middleware/AuthMiddleware.js";
+import { FilterProductController } from "../Controllers/ProductFilterController.js";
 
 const routes = express.Router();
 
@@ -33,5 +34,7 @@ routes.put(
   uploadImage,
   UpdateProductByIdController
 );
+
+routes.post("/filter-product", FilterProductController);
 
 export default routes;
