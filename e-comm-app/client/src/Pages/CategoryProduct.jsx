@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../Components/Layout/Layout";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useCategory from "../hooks/useCategory";
-import { useNavigate } from "react-router-dom";
+import { useCard } from "../Context/CardContext";
 
 const CategoryProduct = () => {
   const param = useParams();
@@ -12,6 +12,7 @@ const CategoryProduct = () => {
   const categories = useCategory();
   const [category, setCategory] = useState();
   const navigate = useNavigate();
+  const [card, setCard] = useCard();
 
   const getAllProductByCategoryId = async (cid) => {
     try {
@@ -91,7 +92,17 @@ const CategoryProduct = () => {
                     >
                       More Details
                     </button>
-                    <button className="btn btn-secondary m-1 float-end">
+                    <button
+                      className="btn btn-secondary m-1 float-end"
+                      onClick={() => {
+                        toast.success("item add in to Cart Successfully!");
+                        setCard([...card, x]);
+                        localStorage.setItem(
+                          "cart",
+                          JSON.stringify([...card, x])
+                        );
+                      }}
+                    >
                       Add To Cart
                     </button>
                   </div>
