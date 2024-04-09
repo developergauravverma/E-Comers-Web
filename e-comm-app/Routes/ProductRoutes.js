@@ -11,6 +11,7 @@ import { requireSignIn, isAdmin } from "../Middleware/AuthMiddleware.js";
 import {
   FilterProductController,
   RelatedProductController,
+  GetProductByCategoryId,
 } from "../Controllers/ProductFilterController.js";
 
 const routes = express.Router();
@@ -40,5 +41,6 @@ routes.put(
 
 routes.post("/filter-product", FilterProductController);
 routes.get("/related-products/:cid/:pid", RelatedProductController);
+routes.get("/product-category/:cid", GetProductByCategoryId);
 
 export default routes;

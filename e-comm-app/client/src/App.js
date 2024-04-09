@@ -18,6 +18,8 @@ import Profile from "./Pages/User/Profile";
 import Orders from "./Pages/User/Orders";
 import ProductsPage from "./Pages/Admin/ProductsPage";
 import ProductDetails from "./Pages/User/ProductDetails";
+import AllCategories from "./Pages/AllCategories";
+import CategoryProduct from "./Pages/CategoryProduct";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/productdetails/:productId" element={<ProductDetails />} />
+        <Route path="/category/" element={<AllCategories />} />
+        <Route path="/category/:cid" element={<CategoryProduct />} />
         <Route path="/dashbord" element={<PrivateRoute />}>
           <Route path="user" element={<Dashbord />} />
           <Route path="user/profile" element={<Profile />} />
