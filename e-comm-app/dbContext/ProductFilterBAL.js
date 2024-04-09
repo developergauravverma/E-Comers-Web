@@ -33,3 +33,17 @@ export const RelatedProductBAL = async (cid, pid) => {
   }
   return relatedProduct;
 };
+
+export const GetProductByCategoryIdBAL = async (cid) => {
+  let product = null;
+  try {
+    product = await getDataFromDatabase(
+      "sp_GetProductsByCategoryId",
+      { cid: cid },
+      { cid: "int" }
+    );
+  } catch (error) {
+    console.log(`error in GetProductByCategoryIdBAL : ${error}`);
+  }
+  return product;
+};
