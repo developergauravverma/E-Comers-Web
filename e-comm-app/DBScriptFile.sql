@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ECOMMDB]    Script Date: 28-03-2024 17:51:32 ******/
+/****** Object:  Database [ECOMMDB]    Script Date: 09-04-2024 11:41:39 ******/
 CREATE DATABASE [ECOMMDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,7 +84,49 @@ ALTER DATABASE [ECOMMDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_P
 GO
 USE [ECOMMDB]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 28-03-2024 17:51:33 ******/
+/****** Object:  Table [dbo].[tbl_Category]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Category](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CategoryName] [nvarchar](200) NULL,
+	[CategorySlugName] [nvarchar](200) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_Product]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_Product](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProductName] [nvarchar](500) NULL,
+	[ProductSlug] [nvarchar](500) NULL,
+	[Description] [nvarchar](2000) NULL,
+	[Price] [int] NULL,
+	[CategoryId] [int] NULL,
+	[Quantity] [int] NULL,
+	[PhotoPath] [nvarchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[CreatedDate] [datetime] NULL,
+	[Shipping] [nvarchar](30) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 09-04-2024 11:41:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -107,16 +149,61 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+SET IDENTITY_INSERT [dbo].[tbl_Category] ON 
+GO
+INSERT [dbo].[tbl_Category] ([Id], [CategoryName], [CategorySlugName], [IsActive], [CreatedBy], [CreatedDate]) VALUES (1, N'Men Collection', N'Men-Collection', 1, 1, CAST(N'2024-04-04T00:09:03.740' AS DateTime))
+GO
+INSERT [dbo].[tbl_Category] ([Id], [CategoryName], [CategorySlugName], [IsActive], [CreatedBy], [CreatedDate]) VALUES (2, N'Women Collection', N'Women-Collection', 1, 1, CAST(N'2024-04-04T00:09:17.287' AS DateTime))
+GO
+INSERT [dbo].[tbl_Category] ([Id], [CategoryName], [CategorySlugName], [IsActive], [CreatedBy], [CreatedDate]) VALUES (3, N'Kids Collection', N'Kids-Collection', 1, 1, CAST(N'2024-04-04T00:12:19.573' AS DateTime))
+GO
+INSERT [dbo].[tbl_Category] ([Id], [CategoryName], [CategorySlugName], [IsActive], [CreatedBy], [CreatedDate]) VALUES (4, N'Watches', N'Watches', 1, 1, CAST(N'2024-04-04T00:12:33.650' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Category] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Product] ON 
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (1, N'Product 1', N'Product-1', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 10, 1, 30, N'Images\Product\image-1712169874300.jpeg', 0, 1, CAST(N'2024-04-04T17:19:09.043' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (2, N'Product 2', N'Product-2', N'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.', 28, 1, 50, N'Images\Product\image-1712169925767.jpeg', 0, 1, CAST(N'2024-04-04T17:19:13.407' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (3, N'product 1', N'product-1', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 10, 1, 300, N'Images\Product\image-1712235492999.jpeg', 1, 1, CAST(N'2024-04-04T18:28:13.097' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (4, N'product 2', N'product-2', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 30, 2, 20, N'Images\Product\image-1712235536038.jpeg', 1, 1, CAST(N'2024-04-04T18:28:56.110' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (5, N'product 3', N'product-3', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 50, 3, 50, N'Images\Product\image-1712235593414.png', 1, 1, CAST(N'2024-04-04T18:29:53.430' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (6, N'product 4', N'product-4', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 70, 4, 59, N'Images\Product\image-1712235673478.png', 1, 1, CAST(N'2024-04-04T18:31:13.497' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (7, N'product 5', N'product-5', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 90, 1, 20, N'Images\Product\image-1712235777686.jpeg', 1, 1, CAST(N'2024-04-04T18:32:57.777' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (8, N'product 6', N'product-6', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 100, 3, 9, N'Images\Product\image-1712235860289.jpeg', 1, 1, CAST(N'2024-04-04T18:34:20.400' AS DateTime), N'Yes')
+GO
+INSERT [dbo].[tbl_Product] ([Id], [ProductName], [ProductSlug], [Description], [Price], [CategoryId], [Quantity], [PhotoPath], [IsActive], [CreatedBy], [CreatedDate], [Shipping]) VALUES (9, N'product 7', N'product-7', N'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 200, 4, 38, N'Images\Product\image-1712236051286.png', 1, 1, CAST(N'2024-04-04T18:37:31.320' AS DateTime), N'Yes')
+GO
+SET IDENTITY_INSERT [dbo].[tbl_Product] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
-
-INSERT [dbo].[Users] ([Id], [Name], [Email], [Password], [SaltPassword], [Address], [Phone], [Role], [IsActive], [CreatedDate], [Answer]) VALUES (1, N'gaurav', N'gaurav@com1', N'123456', N'$2b$10$3AXM5ITh0deai6d/7q04z.S6VT03RlaDE64m3KCp9RVf9o.OS9wdm', N'modinagar', N'9874563210', 0, 1, CAST(N'2024-03-28T17:39:18.273' AS DateTime), N'goli')
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Email], [Password], [SaltPassword], [Address], [Phone], [Role], [IsActive], [CreatedDate], [Answer]) VALUES (1, N'gaurav', N'gaurav@com1', N'123456', N'$2b$10$3AXM5ITh0deai6d/7q04z.S6VT03RlaDE64m3KCp9RVf9o.OS9wdm', N'modinagar', N'9874563210', 1, 1, CAST(N'2024-03-28T17:39:18.273' AS DateTime), N'goli')
+GO
+INSERT [dbo].[Users] ([Id], [Name], [Email], [Password], [SaltPassword], [Address], [Phone], [Role], [IsActive], [CreatedDate], [Answer]) VALUES (2, N'garvit', N'garvit@com1', N'123456789', N'$2b$10$DhvqXPkxxFm1V5SlEC2lGuG5aUTVth2Mdhoeb2T8DwNBsHloEjR2e', N'modinagar', N'1234567890', 0, 0, CAST(N'2024-03-28T20:57:04.517' AS DateTime), N'gannu')
+GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
+GO
+ALTER TABLE [dbo].[tbl_Category] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[tbl_Category] ADD  DEFAULT ((0)) FOR [CreatedBy]
+GO
+ALTER TABLE [dbo].[tbl_Category] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[tbl_Product] ADD  DEFAULT (getdate()) FOR [CreatedDate]
 GO
 ALTER TABLE [dbo].[Users] ADD  DEFAULT (getdate()) FOR [CreatedDate]
 GO
 ALTER TABLE [dbo].[Users] ADD  DEFAULT ('') FOR [Answer]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ChangeUserPassword]    Script Date: 28-03-2024 17:51:33 ******/
+/****** Object:  StoredProcedure [dbo].[sp_ChangeUserPassword]    Script Date: 09-04-2024 11:41:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +223,7 @@ declare @isUpdate bit = 0;
 	select @isUpdate as isUpdate
 end
 GO
-/****** Object:  StoredProcedure [dbo].[sp_createNewUser]    Script Date: 28-03-2024 17:51:33 ******/
+/****** Object:  StoredProcedure [dbo].[sp_createNewUser]    Script Date: 09-04-2024 11:41:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -162,7 +249,116 @@ begin
  select * from Users where Id = @userId  
 end
 GO
-/****** Object:  StoredProcedure [dbo].[sp_FindUserByEmail]    Script Date: 28-03-2024 17:51:33 ******/
+/****** Object:  StoredProcedure [dbo].[sp_deleteCategory]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_deleteCategory]
+@categoryId int = 0,
+@userId int = 0
+as
+begin
+	declare @isDeleted bit = 0
+	update tbl_Category set IsActive = 0, CreatedBy = @userId, CreatedDate = GETDATE()
+	where Id = @categoryId
+	if(@@ROWCOUNT > 0)
+	begin
+		set @isDeleted = 1
+	end
+	select @isDeleted as isDeleted
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_DeleteProductById]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create    procedure [dbo].[sp_DeleteProductById]  
+@productId int = 0,
+@userId int = 0
+as  
+begin  
+ declare @isDelete bit =0, @imagePath nvarchar(max) = null  
+ update tbl_Product set IsActive=0, CreatedBy = @userId, CreatedDate=GETDATE() where Id = @productId  
+ if(@@ROWCOUNT > 0)  
+ begin  
+  set @isDelete = 1  
+  set @imagePath = (select PhotoPath from tbl_Product where Id = @productId)  
+ end  
+ select @isDelete as isDelete, @imagePath as imagePath  
+  
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_FilterProduct]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_FilterProduct]
+@Check nvarchar(1000) = '',
+@Radio nvarchar(1000) = ''
+as
+begin
+	
+	declare @queryVar nvarchar(2000) = null, @isActive bit = 0;
+
+	set @queryVar = N'select p.*, c.CategoryName from tbl_Product p inner join tbl_Category c on c.Id = p.CategoryId';
+
+	if(@Check <> '')
+	begin
+		set @queryVar = @queryVar+N' where c.Id in (select * from 
+		string_split('''+@Check+''','','') where [value] <> '''') and p.isActive = 1'
+		set @isActive = 1
+	end
+
+	if(@Radio <> '')
+	begin
+		declare @V1 nvarchar(10) = '', @V2 nvarchar(10)=''
+		set @V1 = (select top 1 * from string_split(@Radio,',') order by [value])
+		set @V2 = (select top 1 * from string_split(@Radio,',') order by [value] desc)
+		if(@Check <> '')
+		begin
+			if(ISNUMERIC(@v2) = 1)
+			begin
+				set @queryVar = @queryVar + N' and p.Price BETWEEN '+@V1+' and '+@V2
+			end
+			else
+			begin
+				set @queryVar = @queryVar + N' and p.Price >= '+@V1
+			end
+		end
+		else if(@Check = '')
+		begin
+			if(ISNUMERIC(@v2) = 1)
+			begin
+				set @queryVar = @queryVar + N' where p.Price BETWEEN '+@V1+' and '+@V2+' and p.isActive = 1'
+			end
+			else
+			begin
+				set @queryVar = @queryVar + N' where p.Price >= '+@V1+' and p.isActive = 1'
+			end
+		end
+		set @isActive = 1
+	end
+
+	if(@isActive = 0)
+	begin
+		set @queryVar = @queryVar+N' where p.isActive = 1 order by 1'
+	end
+	else
+	begin
+		set @queryVar = @queryVar+N' order by 1'
+	end
+	print @queryVar
+	EXECUTE sp_executesql @queryVar
+
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_FindUserByEmail]    Script Date: 09-04-2024 11:41:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +377,69 @@ begin
 	select @isExists as isEmailExists
 end
 GO
-/****** Object:  StoredProcedure [dbo].[sp_getUserByEmailId]    Script Date: 28-03-2024 17:51:33 ******/
+/****** Object:  StoredProcedure [dbo].[sp_GetAllProduct]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_GetAllProduct]
+@productId int = 0
+as
+begin
+	if(@productId = 0)
+	begin
+		select tp.*, tc.CategoryName from tbl_Product tp inner join tbl_Category tc 
+		on tc.Id = tp.CategoryId and tc.IsActive=1 
+		where tp.IsActive = 1
+	end
+	else
+	begin
+		select top 1 tp.*, tc.CategoryName from tbl_Product tp inner join tbl_Category tc 
+		on tc.Id = tp.CategoryId and tc.IsActive=1 
+		where tp.Id = @productId and tp.IsActive = 1
+	end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_GetCategoryByName]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_GetCategoryByName]
+ @CategoryName nvarchar(200)
+as
+begin
+	declare @IsExists bit = 0
+	if exists (select 1 from tbl_Category where CategoryName = @CategoryName and IsActive=1)
+	begin
+		set @IsExists = 1;
+	end
+	select @IsExists as isExists
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_getCategorys]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_getCategorys]
+	@CategoryId int = 0
+as
+begin
+	if(@CategoryId = 0)
+	begin
+		select * from tbl_Category where IsActive=1
+	end
+	else
+	begin
+		select * from tbl_Category where Id = @CategoryId and IsActive=1
+	end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_getUserByEmailId]    Script Date: 09-04-2024 11:41:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -200,6 +458,107 @@ begin
 	begin
 		select * from Users where Id = @id
 	end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_insertProduct]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create    procedure [dbo].[sp_insertProduct]  
+ @Name nvarchar(500),  
+ @Slug nvarchar(500),  
+ @Description nvarchar(2000),  
+ @Price int,  
+ @CategoryId int,  
+ @Quantity int,  
+ @PhotoPath nvarchar(max),  
+ @userId int,
+ @Shipping nvarchar(30)
+as  
+begin  
+ declare @ProductId int = 0  
+ insert into tbl_Product (ProductName,ProductSlug,[Description],Price,CategoryId,Quantity,PhotoPath,IsActive,CreatedBy,Shipping)  
+ values (@Name, @Slug,@Description,@Price,@CategoryId,@Quantity,@PhotoPath,1,@userId,@Shipping)  
+ set @ProductId = SCOPE_IDENTITY()  
+ select * from tbl_Product where Id = @ProductId  
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_SaveCategory]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_SaveCategory]
+ @CategoryName nvarchar(200),
+ @SlugCategory nvarchar(200),
+ @userId int
+as
+begin
+declare @CategoryId int = 0
+	insert into tbl_Category (CategoryName,CategorySlugName,IsActive,CreatedBy)
+	values (@CategoryName, @SlugCategory, 1, @userId)
+
+	set @CategoryId = SCOPE_IDENTITY();
+
+	select * from tbl_Category where Id = @CategoryId
+
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateCategory]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create   procedure [dbo].[sp_UpdateCategory]
+ @CategoryName nvarchar(200),
+ @SlugCategory nvarchar(200),
+ @userId int,
+ @CategoryId int
+as
+begin
+	
+	update tbl_Category set CategoryName = @CategoryName, 
+	CategorySlugName=@SlugCategory, CreatedBy=@userId, CreatedDate=getdate()
+	where Id = @CategoryId
+
+	if(@@ROWCOUNT > 0)
+	begin
+		select top 1 * from tbl_Category where Id = @CategoryId
+	end
+end
+GO
+/****** Object:  StoredProcedure [dbo].[sp_UpdateProduct]    Script Date: 09-04-2024 11:41:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+create    procedure [dbo].[sp_UpdateProduct]  
+ @Name nvarchar(500),  
+ @Slug nvarchar(500),  
+ @Description nvarchar(2000),  
+ @Price int,  
+ @CategoryId int,  
+ @Quantity int,  
+ @PhotoPath nvarchar(max),  
+ @userId int,  
+ @productId int,
+ @Shipping nvarchar(30)
+as  
+begin  
+declare @isUpdate bit = 0  
+ update tbl_Product set ProductName=@Name,ProductSlug=@Slug,[Description]=@Description,Price=@Price,CategoryId=@CategoryId,  
+ Quantity=@Quantity,PhotoPath=@PhotoPath,CreatedBy=@userId, Shipping=@Shipping where Id = @productId  
+  
+ if(@@ROWCOUNT > 0)  
+ begin  
+  set @isUpdate = 1  
+ end  
+ select @isUpdate as isUpdate  
 end
 GO
 USE [master]
