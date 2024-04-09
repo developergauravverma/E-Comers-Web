@@ -13,3 +13,23 @@ export const FilterByCategoryAndPrice = async (check, radio) => {
   }
   return product;
 };
+
+export const RelatedProductBAL = async (cid, pid) => {
+  let relatedProduct = null;
+  try {
+    relatedProduct = await getDataFromDatabase(
+      "sp_RelatedProduct",
+      {
+        cid: cid,
+        pid: pid,
+      },
+      {
+        cid: "int",
+        pid: "int",
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+  return relatedProduct;
+};

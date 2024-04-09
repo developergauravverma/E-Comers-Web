@@ -8,6 +8,7 @@ const ProductDetails = () => {
   const param = useParams();
   const [product, setProduct] = useState();
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
   const getProduct = async (productId) => {
     try {
@@ -16,6 +17,7 @@ const ProductDetails = () => {
       );
       if (data.success) {
         setProduct(data.products);
+        await getSimilarProduct(data.products.CategoryId, data.products.Id);
       } else {
         toast.error(data.message);
       }
@@ -24,16 +26,40 @@ const ProductDetails = () => {
     }
   };
 
+  const getSimilarProduct = async (cid, pid) => {
+    try {
+      const { data } = await axios.get(
+        `/api/v1/product/related-products/${cid}/${pid}`
+      );
+      if (data.success) {
+        let products = !data.relatedProduct
+          ? []
+          : Array.isArray(data.relatedProduct)
+          ? data.relatedProduct
+          : [data.relatedProduct];
+        setProducts(products);
+      }
+    } catch (error) {
+      console.log(`error in getSimilarProduct : ${error}`);
+    }
+  };
+
   useEffect(() => {
     debugger;
     getProduct(param.productId);
+    // eslint-disable-next-line
   }, [param]);
+
+  const ProductDetailPage = (e) => {
+    const productId = e.target.getAttribute("data-productid");
+    navigate(`/productdetails/${productId}`);
+  };
 
   return (
     <>
       <Layout>
         <div className="container py-5">
-          <div className="row">
+          <div className="row m-4">
             <h3 className="text-center">Product Details</h3>
             <div className=" col-md-4">
               <img
@@ -43,6 +69,7 @@ const ProductDetails = () => {
                   "/"
                 )}`}
                 alt="not found"
+                style={{ height: "360px" }}
               />
             </div>
             <div className="col-md-8">
@@ -102,6 +129,55 @@ const ProductDetails = () => {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="row m-4">
+            <div className="col-md-12 text-center">
+              <h4>Similar Product</h4>
+              {products.length === 0 ? (
+                <h3>Similar Product Not Found</h3>
+              ) : (
+                products.map((x) => (
+                  <div
+                    key={x.Id}
+                    className="card m-1"
+                    style={{ width: "18rem" }}
+                  >
+                    <img
+                      src={`http://localhost:8080/${x.PhotoPath.replace(
+                        "\\",
+                        "/"
+                      )}`}
+                      className="img img-thumbnail"
+                      alt="default"
+                      style={{
+                        height: "360px",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{x.ProductName}</h5>
+                      <p
+                        className="card-text"
+                        style={{ height: "5rem", overflow: "auto" }}
+                      >
+                        {x.Description}
+                      </p>
+                      <button
+                        className="btn btn-primary m-1 float-start"
+                        onClick={ProductDetailPage}
+                        data-productid={x.Id}
+                      >
+                        More Details
+                      </button>
+                      <button className="btn btn-secondary m-1 float-end">
+                        Add To Cart
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
