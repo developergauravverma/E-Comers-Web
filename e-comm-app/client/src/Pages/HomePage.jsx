@@ -4,12 +4,14 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Checkbox, Radio } from "antd";
 import { PriceFilter } from "../Utils/PricesFilter";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [categorys, setCategorys] = useState();
   const [products, setProducts] = useState();
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const navigate = useNavigate();
 
   const getProducts = async () => {
     try {
@@ -90,6 +92,11 @@ const HomePage = () => {
     }
   };
 
+  const ProductDetailPage = (e) => {
+    const productId = e.target.getAttribute("data-productid");
+    navigate(`/productdetails/${productId}`);
+  };
+
   return (
     <>
       <Layout>
@@ -133,7 +140,7 @@ const HomePage = () => {
                       "\\",
                       "/"
                     )}`}
-                    className="card-img-top zoomImg"
+                    className="img img-thumbnail"
                     alt="default"
                     style={{
                       height: "15rem",
@@ -149,7 +156,11 @@ const HomePage = () => {
                     >
                       {x.Description}
                     </p>
-                    <button className="btn btn-primary m-1 float-start">
+                    <button
+                      className="btn btn-primary m-1 float-start"
+                      onClick={ProductDetailPage}
+                      data-productid={x.Id}
+                    >
                       More Details
                     </button>
                     <button className="btn btn-secondary m-1 float-end">
