@@ -3,12 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../Components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useCard } from "../../Context/CardContext";
 
 const ProductDetails = () => {
   const param = useParams();
   const [product, setProduct] = useState();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [card, setCard] = useCard();
 
   const getProduct = async (productId) => {
     try {
@@ -171,7 +173,17 @@ const ProductDetails = () => {
                       >
                         More Details
                       </button>
-                      <button className="btn btn-secondary m-1 float-end">
+                      <button
+                        className="btn btn-secondary m-1 float-end"
+                        onClick={() => {
+                          toast.success("item add in to Cart Successfully!");
+                          setCard([...card, x]);
+                          localStorage.setItem(
+                            "cart",
+                            JSON.stringify([...card, x])
+                          );
+                        }}
+                      >
                         Add To Cart
                       </button>
                     </div>

@@ -20,6 +20,7 @@ import ProductsPage from "./Pages/Admin/ProductsPage";
 import ProductDetails from "./Pages/User/ProductDetails";
 import AllCategories from "./Pages/AllCategories";
 import CategoryProduct from "./Pages/CategoryProduct";
+import CartPage from "./Pages/CartPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/productdetails/:productId" element={<ProductDetails />} />
         <Route path="/category/" element={<AllCategories />} />
         <Route path="/category/:cid" element={<CategoryProduct />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/dashbord" element={<PrivateRoute />}>
           <Route path="user" element={<Dashbord />} />
           <Route path="user/profile" element={<Profile />} />

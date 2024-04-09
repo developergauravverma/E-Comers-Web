@@ -3,10 +3,12 @@ import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 import useCategory from "../hooks/useCategory";
+import { useCard } from "../Context/CardContext";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const categorys = useCategory();
+  const [card] = useCard();
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAuth({
@@ -132,9 +134,13 @@ const Header = () => {
                   </li>
                 </>
               )}
-              <li className="nav-item">
+              <li className="nav-item position-relative">
                 <NavLink className="nav-link" to="/cart">
-                  Cart(0)
+                  cart
+                  <span className="position-absolute start-100 translate-middle badge rounded-pill bg-danger">
+                    {card?.length}
+                    <span className="visually-hidden">unread messages</span>
+                  </span>
                 </NavLink>
               </li>
             </ul>
