@@ -52,7 +52,6 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    debugger;
     getCategorys();
     if (!checked.length && !radio.length) {
       getProducts();

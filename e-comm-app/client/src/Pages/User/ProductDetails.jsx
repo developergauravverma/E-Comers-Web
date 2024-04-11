@@ -47,7 +47,6 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    debugger;
     getProduct(param.productId);
     // eslint-disable-next-line
   }, [param]);

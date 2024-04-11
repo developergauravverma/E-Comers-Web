@@ -51,7 +51,6 @@ const CreateProduct = () => {
   }, []);
 
   const submitHandler = async (e) => {
-    debugger;
     e.preventDefault();
     try {
       const categoryId = allCategory.find(

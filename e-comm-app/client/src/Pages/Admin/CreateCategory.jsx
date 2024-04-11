@@ -21,7 +21,6 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-Category");
-      debugger;
       if (data.success) {
         let categorys = !data.category
           ? []
@@ -41,7 +40,6 @@ const CreateCategory = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    debugger;
     try {
       const { data } = await axios.post("/api/v1/category/create-category", {
         categoryName: name,
@@ -92,7 +90,6 @@ const CreateCategory = () => {
   };
 
   const deleteButton = (e) => {
-    debugger;
     e.preventDefault();
     setDeleteVisible(true);
     setCategoryId(e.target.getAttribute("data-id"));
@@ -100,7 +97,6 @@ const CreateCategory = () => {
   };
 
   const conformDelete = async (e) => {
-    debugger;
     e.preventDefault();
     try {
       const isDelete =
