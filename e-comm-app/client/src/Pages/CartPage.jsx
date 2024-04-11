@@ -8,7 +8,6 @@ const CartPage = () => {
   const [auth] = useAuth();
 
   const deleteCartItem = (e) => {
-    debugger;
     const productId = e.target.getAttribute("data-productid");
     let cartItem = [...card];
     const itemIndex = cartItem.findIndex((x) => x.Id === parseInt(productId));

@@ -16,7 +16,6 @@ const CategoryProduct = () => {
 
   const getAllProductByCategoryId = async (cid) => {
     try {
-      debugger;
       const { data } = await axios.get(
         `/api/v1/product/product-category/${cid}`
       );
